@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'PTMono';
+  src: url('PTMono.ttf');
+}
+@font-face {
+  font-family: 'ps';
+  src: url('pressstart.ttf');
+}
+h1 {
+  font-family: 'ps';
+  font-size: 25px;
+}
+* {
+  font-family: 'PTMono';
+}
+a {
+  color: black;
+}
+textarea {
+  width: 700px;
+  height: 600px;
+}
+#bt {
+  width: 200px;
+}
+.nameinput {
+  width: 600px;
+}
+.llogo {
+  text-decoration: none;
+  color: black;
+  font-family: 'ps';
+}
