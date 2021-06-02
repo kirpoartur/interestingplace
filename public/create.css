@@ -17,17 +17,47 @@ a {
   color: black;
 }
 textarea {
-  width: 700px;
+  width: 100%;
   height: 600px;
+  padding: 25px 15px;
+  border: 2px solid #2e2c2c;
+  box-sizing: border-box;
+  border-radius: 0px;
+  outline: none;
+  font-size: 15px;
 }
+.lol {
+  display: flex;
+}
+
 #bt {
-  width: 200px;
-}
-.nameinput {
-  width: 600px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  display: block;
+  border: solid 2px black;
+  font-size: 30px;
 }
 .llogo {
   text-decoration: none;
   color: black;
   font-family: 'ps';
+}
+#name {
+  display: block;
+  height: 24px;
+  border: none;
+  border-bottom: 2px solid;
+  margin-bottom: 15px;
+  font-size: 20px;
+  padding: 5px 0px;
+  width: 682px;
+  float: left;
+  margin-right: 10px;
+  outline: none;
+}
+.create {
+  width: 730px;
+  margin: 0 auto;
+  margin-top: 40px;
 }
