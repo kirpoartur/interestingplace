@@ -53,6 +53,48 @@ http.createServer(function(request, response){
      response.setHeader("Content-Type", "text/js; charset=utf-8;");
      page = fs.readFileSync('public/create.js');
      response.end(page)
+   }
+    else if (request.url == '/favicon.ico') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/ico; charset=utf-8;");
+     page = fs.readFileSync('public/favicon.ico');
+     response.end(page)
+    }
+    else if (request.url == '/favicon-16x16.png') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/png; charset=utf-8;");
+     page = fs.readFileSync('public/favicon-16x16.png');
+     response.end(page)
+    }
+    else if (request.url == '/favicon-32x32.png') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/png; charset=utf-8;");
+     page = fs.readFileSync('public/favicon-32x32.png');
+     response.end(page)
+    }
+    else if (request.url == '/apple-touch-icon.png') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/png; charset=utf-8;");
+     page = fs.readFileSync('public/apple-touch-icon.png');
+     response.end(page)
+    }
+    else if (request.url == '/android-chrome-192x192.png') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/png; charset=utf-8;");
+     page = fs.readFileSync('public/android-chrome-192x192.png');
+     response.end(page)
+    }
+    else if (request.url == '/android-chrome-512x512.png') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "img/png; charset=utf-8;");
+     page = fs.readFileSync('public/android-chrome-512x512.png');
+     response.end(page)
+    }
+    else if (request.url == '/site.webmanifest') {
+     response.statusCode = 200;
+     response.setHeader("Content-Type", "text/txt; charset=utf-8;");
+     page = fs.readFileSync('public/site.webmanifest');
+     response.end(page)
     }
     else if (request.url == '/nickcreate.js') {
      response.statusCode = 200;
