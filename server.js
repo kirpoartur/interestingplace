@@ -185,7 +185,7 @@ http.createServer(function(request, response){
 
       else {
         response.statusCode = 404;
-        response.write("<h2>такой страницы не существует</h2>");
+        response.write("<meta charset='utf-8'><h2>такой страницы не существует</h2>");
         response.end();
       }
     }
