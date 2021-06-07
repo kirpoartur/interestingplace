@@ -137,43 +137,55 @@ http.createServer(function(request, response){
         list = request.url.split('/')
 
         filename = list[2]
+        check = "post" + list[2]
 
-        text = ''
-        text = "<!DOCTYPE html>\n<html lang='ru' dir='ltr'>\n<head>\n<meta charset='utf-8'>\n<title>interestingplace.</title>\n<link rel='stylesheet' href='/article.css'>\n</head>\n<body>\n<div class='footer'>\n<h1><a class='llogo' href='/'>interestingplace.</a></h1>\n<div class='create'>\n<a class='button' href='/info.html'>создать</a>\n</div>\n</div>\n" + decodeURIComponent(list[3]) + "\n</body>\n</html>"
-        name1 = decodeURIComponent(list[4])
-        console.log('------------------')
-        console.log(text)
-        console.log(name1)
-        console.log('------------------')
+        tokens = fs.readFileSync("other/articles.json")
+        data = JSON.parse(tokens)
+        keys = Object.keys(data);
+
+        console.log(keys)
+        console.log(check)
+        if (keys.indexOf(check) == -1) {
+          console.log('ok')
+          text = ''
+          text = "<!DOCTYPE html>\n<html lang='ru' dir='ltr'>\n<head>\n<meta charset='utf-8'>\n<title>interestingplace.</title>\n<link rel='stylesheet' href='/article.css'>\n</head>\n<body>\n<div class='footer'>\n<h1><a class='llogo' href='/'>interestingplace.</a></h1>\n<div class='create'>\n<a class='button' href='/info.html'>создать</a>\n</div>\n</div>\n" + decodeURIComponent(list[3]) + "\n</body>\n</html>"
+          name1 = decodeURIComponent(list[4])
+
+          fs.open('articles/' + filename + '.html', 'w', (err) => {
+          if(err) throw err;
+          //file created :)
+
+          fs.appendFile('articles/' + filename + '.html', text.replace('<script>', '&lt;script&gt;').replace('</script>', '&lt;/script&gt;').replace('<iframe', '&lt;iframe').replace('</iframe>', '&lt;/iframe&gt;'), (err) => {
+          if(err) throw err;
+
+          });
+          });
+          //text writed :)
+
+          json = fs.readFileSync('other/articles.json', 'utf8');
+          data = JSON.parse(json)
+
+          let name = 'post' + filename
+          let data1 = {}
+          data1[name] = {"data": '/articles/' + filename + '.html', "descrip": decodeURIComponent(name1).replace('<', '&lt;').replace('>', '&gt;')}
+          data_new = Object.assign(data1, data)
+          data = JSON.stringify(data_new);
 
 
-        fs.open('articles/' + filename + '.html', 'w', (err) => {
-        if(err) throw err;
-        //file created :)
-
-        fs.appendFile('articles/' + filename + '.html', text.replace('<script>', '&lt;script&gt;').replace('</script>', '&lt;/script&gt;').replace('<iframe', '&lt;iframe').replace('</iframe>', '&lt;/iframe&gt;'), (err) => {
-        if(err) throw err;
-
-        });
-        });
-        //text writed :)
-
-        json = fs.readFileSync('other/articles.json', 'utf8');
-        data = JSON.parse(json)
-
-        let name = 'post' + filename
-        let data1 = {}
-        data1[name] = {"data": '/articles/' + filename + '.html', "descrip": decodeURIComponent(name1).replace('<', '&lt;').replace('>', '&gt;')}
-        data_new = Object.assign(data1, data)
-        data = JSON.stringify(data_new);
+          fs.writeFileSync("other/articles.json", data)
+          //file created :)
 
 
-        fs.writeFileSync("other/articles.json", data)
-        //file created :)
+          response.statusCode = 200;
+          response.end();
+        } else {
+          response.statusCode = 403;
+          response.setHeader("Content-Type", "text/html; charset=utf-8;");
+          response.write("<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>пасибо артхацкеру за предоставленную уязвимость.</p>");
+          response.end();
+        }
 
 
-        response.statusCode = 200;
-        response.end();
       }
       else if (request.url.includes('/articles/') == true) {
         list = request.url.split(/articles/)
