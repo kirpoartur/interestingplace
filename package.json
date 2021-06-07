@@ -1,0 +1,13 @@
+{
+  "name": "interestingplace.",
+  "version": "1.0.0",
+  "description": "A Node.js interestingplace app.",
+  "main": "server.js",
+  "author": "FOSSS",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "fs": "0.0.1-security",
+    "path": "0.12.7"
+  }
+}
