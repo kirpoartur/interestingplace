@@ -6,14 +6,16 @@ function create() {
   if (text != '' && text != ' ' && name != '' && name != ' ') {
     name = encodeURIComponent(name)
 
-    filename = String(Math.random() * 10000000000000000)
+    filename = String(prompt('Введите ссылку на пост (без .html):'))
     var xmlHttp = new XMLHttpRequest()
     xmlHttp.open("GET", '/withlovefosssru/' + filename + "/" + encodeURIComponent(text) + '/' + name, false)
-    console.log(name)
-    xmlHttp.addEventListener("load", function (){
-      window.location.href = '/articles/' + filename + '.html'
-    })
     xmlHttp.send(null)
+    if (xmlHttp.responseText != "<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>Спасибо артхацкеру за предоставленную уязвимость.</p>") {
+      window.location.href = '/articles/' + filename + '.html'
+    } else {
+      alert('Статья с такой ссылкой уже существует :|')
+    }
+
   } else {
     alert('Имя и текст поста не могут быть пустыми :|')
   }
