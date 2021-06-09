@@ -12,7 +12,7 @@ function create() {
     var xmlHttp = new XMLHttpRequest()
     xmlHttp.open("GET", '/withlovefosssru/' + filename + "/" + encodeURIComponent(text) + '/' + name, false)
     xmlHttp.send(null)
-    if (xmlHttp.responseText != "<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>Спасибо артхацкеру за предоставленную уязвимость.</p>") {
+    if (xmlHttp.responseText != "<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>Cпасибо артхацкеру за предоставленную уязвимость.</p>") {
       window.location.href = '/articles/' + filename + '.html'
     } else {
       alert('Статья с такой ссылкой уже существует :|')
