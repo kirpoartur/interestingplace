@@ -33,7 +33,7 @@ http.createServer(function(request, response){
       oldpage = fs.readFileSync('html/nickcreate.html')
 
       page = fs.readFile('html/nickcreate.html', (err, data) => {
-        data = data.toString().replace('{NICK}', list[2])
+        data = data.toString().replace('{NICK}', decodeURIComponent(list[2]).split("<").join("&lt;").split(">").join("&gt;"))
         fs.writeFileSync('html/nickcreate.html', page);
         response.end(data)
 
@@ -155,7 +155,9 @@ http.createServer(function(request, response){
           if(err) throw err;
           //file created :)
 
-          fs.appendFile('articles/' + filename + '.html', text.replace('<script>', '&lt;script&gt;').replace('</script>', '&lt;/script&gt;').replace('<iframe', '&lt;iframe').replace('</iframe>', '&lt;/iframe&gt;'), (err) => {
+          //sorry about this, it needs to replace ALL occurrences. Not just one, using replace.
+          //PS: replaceAll or /x/g don't work here.
+          fs.appendFile('articles/' + filename + '.html', text.split("<script>").join("&lt;script&gt;").split("</script>").join("&lt;/script&gt;").split("<script").join("&lt;script").split("</script>").join("&lt;/script&gt;").split("<iframe").join("&lt;iframe").split("</iframe>").join("&lt;/iframe&gt;"), (err) => {
           if(err) throw err;
 
           });
@@ -167,7 +169,8 @@ http.createServer(function(request, response){
 
           let name = 'post' + filename
           let data1 = {}
-          data1[name] = {"data": '/articles/' + filename + '.html', "descrip": decodeURIComponent(name1).replace('<', '&lt;').replace('>', '&gt;')}
+          //Same as line 160 :|
+          data1[name] = {"data": '/articles/' + filename + '.html', "descrip": decodeURIComponent(name1).split("<").join("&lt;").split(">").join("&gt;")}
           data_new = Object.assign(data1, data)
           data = JSON.stringify(data_new);
 
@@ -179,9 +182,10 @@ http.createServer(function(request, response){
           response.statusCode = 200;
           response.end();
         } else {
+          //HA-HA, not today, thank you :)
           response.statusCode = 403;
           response.setHeader("Content-Type", "text/html; charset=utf-8;");
-          response.write("<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>пасибо артхацкеру за предоставленную уязвимость.</p>");
+          response.write("<meta charset='utf-8'><h2>Ты тут самый умный?<br>Перезаписать чужую статью нельзя, мой 8-ми летний друг.</h2><p>Cпасибо артхацкеру за предоставленную уязвимость.</p>");
           response.end();
         }
 
