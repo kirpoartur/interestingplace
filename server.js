@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 var path = require('path');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 http.createServer(function(request, response){
 
@@ -28,17 +29,30 @@ http.createServer(function(request, response){
       list = request.url.split('/')
       console.log(list)
 
-      response.statusCode = 200;
+      var xmlHttp = new XMLHttpRequest()
+      xmlHttp.open("GET", 'https://fosss.ru/getnickbytoken/yy*9%23w%26n4eP!O5wAWbU3bM5ASmgbYhZuhZ11tlRP/'+decodeURIComponent(list[2]) , false)
+      xmlHttp.send(null)
 
-      oldpage = fs.readFileSync('html/nickcreate.html')
+      console.log(xmlHttp.responseText)
 
-      page = fs.readFile('html/nickcreate.html', (err, data) => {
-        data = data.toString().replace('{NICK}', decodeURIComponent(list[2]).split("<").join("&lt;").split(">").join("&gt;"))
-        fs.writeFileSync('html/nickcreate.html', page);
-        response.end(data)
+      if (xmlHttp.responseText != "error" && xmlHttp.responseText != "invalid token") {
+        response.statusCode = 200;
 
-        fs.writeFileSync('html/nickcreate.html', oldpage);
-      })
+        oldpage = fs.readFileSync('html/nickcreate.html')
+
+        page = fs.readFile('html/nickcreate.html', (err, data) => {
+          data = data.toString().replace('{NICK}', xmlHttp.responseText.split("<").join("&lt;").split(">").join("&gt;"))
+          fs.writeFileSync('html/nickcreate.html', page);
+          response.end(data)
+
+          fs.writeFileSync('html/nickcreate.html', oldpage);
+        })
+      }
+      else {
+        response.statusCode = 403;
+        page = "invalid FOSSS token"
+        response.end(page)
+      }
 
     }
     else if (request.url.indexOf(".css") >= 0) {
